@@ -45,6 +45,10 @@ public:
             f_level = data.node.row();
         }
 
+        if (f_level == 0 && data.node.col() == 0) { // 0-terminal
+            return 0;
+        }
+
         if (f_level == level) {
             data.node = dd_.child(data.node, value);
             if (data.node.row() == 0 && data.node.col() == 0) { // 0-terminal
@@ -52,8 +56,10 @@ public:
             }
         }
 
-        if (level > 0) {
-            data.parity = !data.parity;
+        if (level >= 2) {
+            if (value == 1) {
+                data.parity = !data.parity;
+            }
             return level - 1;
         } else {
             if (data.parity) {
